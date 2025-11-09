@@ -17,11 +17,17 @@ fuel60 <- fuel60 %>%
     nofuel     = B73008
   )
 
+# Remove NAs - but only if they are NAs of the above columns. B/C some places naturally do not have 'urban area name', but dont need removal
+fuel60 <- fuel60 %>%
+  filter(!if_any(c(coal, wood, utgas, botgas, elec, kerosene, otherfuel, nofuel), is.na))
+
 # Create total, for percentages 
 fuel60 <- fuel60 %>%
   mutate(
     total = coal + wood + utgas + botgas + elec + kerosene + otherfuel + nofuel
   )
+
+
 
 # Create percentages 
 fuel60 <- fuel60 %>%
@@ -36,6 +42,8 @@ fuel60 <- fuel60 %>%
     pctno = (nofuel / total) *100
   )
 
+# Save cleaned and manipulated CSV for further analysis
+write_csv(fuel60, file.path(data_dir, "fuel_csv/fuel60clean.csv"))
 
 # Load CSVs of fuel data for 1970
 fuel70 <- read_csv(file.path(data_dir, "fuel_csv/fuel70.csv"))
