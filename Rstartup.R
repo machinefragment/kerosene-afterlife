@@ -6,7 +6,7 @@ library(ggplot2)
 library(readr)
 library(tmap)
 library(here)
-
+library(tidyverse)
 # Set options
 options(stringsAsFactors = FALSE)
 
