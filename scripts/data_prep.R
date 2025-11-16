@@ -78,5 +78,39 @@ fuel70_ct0 <- fuel70 %>% select(all_of(geo_cols), starts_with("CT0")) # CT0 = Wa
 # 7 = other
 # 8 = none
 
-# Calculate totals per category
+# We now have to filter these 
+# Our first dataframe, CTP, for cooking fuel in occupied units overall, drops from 34647 to 33695 when filtering NAs
+fuel70_ctp <- fuel70_ctp %>%
+  filter(!if_any(c(CTP001, CTP002, CTP003, CTP004, CTP005, CTP006, CTP007, CTP008), is.na))
 
+#CTR, for negro occupied cooking fuel, drops from 34647 to 7471
+fuel70_ctr <- fuel70_ctr %>%
+  filter(!if_any(c(CTR001, CTR002, CTR003, CTR004, CTR005, CTR006, CTR007, CTR008), is.na))
+
+#CTS, for spanish occupied cooking fuel, drops from 34647 to 4413
+fuel70_cts <- fuel70_cts %>%
+  filter(!if_any(c(CTS001, CTS002, CTS003, CTS004, CTS005, CTS006, CTS007, CTS008), is.na))
+
+#CTT, for overall occupied units heating fuel drops from 34647 to 33695
+fuel70_ctt <- fuel70_ctt %>%
+  filter(!if_any(c(CTT001, CTT002, CTT003, CTT004, CTT005, CTT006, CTT007, CTT008), is.na))
+
+#CTV, for negro occupied units heating fuel drops from 34647 to 7471
+fuel70_ctv <- fuel70_ctv %>%
+  filter(!if_any(c(CTV001, CTV002, CTV003, CTV004, CTV005, CTV006, CTV007, CTV008), is.na))
+
+#CTW for spanish occupied units heating fuel drops from 34647 to 4413
+fuel70_ctw <- fuel70_ctw %>%
+  filter(!if_any(c(CTW001, CTW002, CTW003, CTW004, CTW005, CTW006, CTW007, CTW008), is.na))
+
+# CTX for all occupied units water heating fuel drops from 34647 to 33695
+fuel70_ctx <- fuel70_ctx %>%
+  filter(!if_any(c(CTX001, CTX002, CTX003, CTX004, CTX005, CTX006, CTX007, CTX008), is.na))
+
+# CTZ for negro occupied units water heating fuel drops from 34647 to 7471
+fuel70_ctz <- fuel70_ctz %>%
+  filter(!if_any(c(CTZ001, CTZ002, CTZ003, CTZ004, CTZ005, CTZ006, CTZ007, CTZ008), is.na))
+
+# CT0 for spanish occupied units water heating fuel drops from 34647 to 4413
+fuel70_ct0 <- fuel70_ct0 %>%
+  filter(!if_any(c(CT0001, CT0002, CT0003, CT0004, CT0005, CT0006, CT0007, CT0008), is.na))
