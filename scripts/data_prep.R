@@ -115,6 +115,43 @@ fuel70_ctz <- fuel70_ctz %>%
 fuel70_ct0 <- fuel70_ct0 %>%
   filter(!if_any(c(CT0001, CT0002, CT0003, CT0004, CT0005, CT0006, CT0007, CT0008), is.na))
 
+# Create 'total' column, to create percentages
+fuel70_ct0 <- fuel70_ct0 %>%
+  mutate(
+    total = CT0001 + CT0002 + CT0003 + CT0004 + CT0005 + CT0006 + CT0007 + CT0008)
+
+fuel70_ctp <- fuel70_ctp %>%
+  mutate(
+    total = CTP001 + CTP002 + CTP003 + CTP004 + CTP005 + CTP006 + CTP007 + CTP008)
+
+fuel70_ctr <- fuel70_ctr %>%
+  mutate(
+    total = CTR001 + CTR002 + CTR003 + CTR004 + CTR005 + CTR006 + CTR007 + CTR008)
+
+fuel70_cts <- fuel70_cts %>%
+  mutate(
+    total = CTS001 + CTS002 + CTS003 + CTS004 + CTS005 + CTS006 + CTS007 + CTS008)
+
+fuel70_ctt <- fuel70_ctt %>%
+  mutate(
+    total = CTT001 + CTT002 + CTT003 + CTT004 + CTT005 + CTT006 + CTT007 + CTT008)
+
+fuel70_ctv <- fuel70_ctv %>%
+  mutate(
+    total = CTV001 + CTV002 + CTV003 + CTV004 + CTV005 + CTV006 + CTV007 + CTV008)
+
+fuel70_ctw <- fuel70_ctw %>%
+  mutate(
+    total = CTW001 + CTW002 + CTW003 + CTW004 + CTW005 + CTW006 + CTW007 + CTW008)
+
+fuel70_ctx <- fuel70_ctx %>%
+  mutate(
+    total = CTX001 + CTX002 + CTX003 + CTX004 + CTX005 + CTX006 + CTX007 + CTX008)
+
+fuel70_ctz <- fuel70_ctz %>%
+  mutate(
+    total = CTZ001 + CTZ002 + CTZ003 + CTZ004 + CTZ005 + CTZ006 + CTZ007 + CTZ008)
+
 # Save cleaned and manipulated CSVs for further analysis
 write_csv(fuel70_ct0, file.path(data_dir, "fuel_csv/fuel70ct0.csv"))
 
@@ -133,3 +170,4 @@ write_csv(fuel70_ctw, file.path(data_dir, "fuel_csv/fuel70ctw.csv"))
 write_csv(fuel70_ctx, file.path(data_dir, "fuel_csv/fuel70ctx.csv"))
 
 write_csv(fuel70_ctz, file.path(data_dir, "fuel_csv/fuel70ctz.csv"))
+
