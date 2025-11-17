@@ -114,3 +114,22 @@ fuel70_ctz <- fuel70_ctz %>%
 # CT0 for spanish occupied units water heating fuel drops from 34647 to 4413
 fuel70_ct0 <- fuel70_ct0 %>%
   filter(!if_any(c(CT0001, CT0002, CT0003, CT0004, CT0005, CT0006, CT0007, CT0008), is.na))
+
+# Save cleaned and manipulated CSVs for further analysis
+write_csv(fuel70_ct0, file.path(data_dir, "fuel_csv/fuel70ct0.csv"))
+
+write_csv(fuel70_ctp, file.path(data_dir, "fuel_csv/fuel70ctp.csv"))
+
+write_csv(fuel70_ctr, file.path(data_dir, "fuel_csv/fuel70ctr.csv"))
+
+write_csv(fuel70_cts, file.path(data_dir, "fuel_csv/fuel70cts.csv"))
+
+write_csv(fuel70_ctt, file.path(data_dir, "fuel_csv/fuel70ctt.csv"))
+
+write_csv(fuel70_ctv, file.path(data_dir, "fuel_csv/fuel70ctv.csv"))
+
+write_csv(fuel70_ctw, file.path(data_dir, "fuel_csv/fuel70ctw.csv"))
+
+write_csv(fuel70_ctx, file.path(data_dir, "fuel_csv/fuel70ctx.csv"))
+
+write_csv(fuel70_ctz, file.path(data_dir, "fuel_csv/fuel70ctz.csv"))
