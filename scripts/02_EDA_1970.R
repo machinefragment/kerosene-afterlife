@@ -57,3 +57,56 @@ p70 <- state_summary70 %>%
 # Interesting, lets export
 # dir.create("outputs/charts")
 ggsave("outputs/charts/1970_statebreakdown.png", plot = p70, width = 10, height = 7, dpi = 300)
+
+
+# Now since we have cooking fuel data and water heating fuel - lets see what that looks like
+
+analysis70_CTP <- read_csv(file.path(data_dir, "fuel_csv/fuel70ctp.csv"))
+
+state_summary70cook <- analysis70_CTP %>%
+  group_by(STATE) %>%
+  summarise(
+    CTP001 = sum(CTP001, na.rm = TRUE),
+    CTP002 = sum(CTP002, na.rm = TRUE),
+    CTP003 = sum(CTP003, na.rm = TRUE),
+    CTP004 = sum(CTP004, na.rm = TRUE),
+    CTP005 = sum(CTP005, na.rm = TRUE),
+    CTP006 = sum(CTP006, na.rm = TRUE),
+    CTP007 = sum(CTP007, na.rm = TRUE),
+    CTP008 = sum(CTP008, na.rm = TRUE),
+    total = sum(total, na.rm = TRUE)
+  ) %>%
+  mutate(
+    pctut = 100 * CTP001 / total,
+    pctbot = 100 * CTP002 / total,
+    pctelec   = 100 * CTP003 / total,
+    pctker  = 100 * CTP004 / total,
+    pctcoal = 100 * CTP005 / total,
+    pctwood  = 100 * CTP006 / total,
+    pctoth  = 100 * CTP007 / total,
+    pctno   = 100 * CTP008 / total
+  )
+
+p70cook <- state_summary70cook %>% 
+  pivot_longer(cols = starts_with("pct"), names_to = "source", values_to = "percent") %>% # Reshape from wide (many columns) to long (two columns - source and percent)
+  mutate(source = recode(source, # Here we are making our labels human readable
+                         pctbot = "Bottled Gas",
+                         pctcoal = "Coal or Coke",
+                         pctelec = "Electricity",
+                         pctker = "Kerosene or Fuel Oil",
+                         pctno = "None",
+                         pctoth = "Other",
+                         pctut = "Utility Gas",
+                         pctwood = "Wood"
+  )) %>%
+  ggplot(aes(x = STATE, y = percent, fill = source)) + # Starts ggplot object telling R how to map visually
+  geom_bar(stat = "identity", position = "stack") + # adds bar geometry, stat = identity tells it to use actual values not counts, position = stack stacks the bars by fuel type 
+  coord_flip() + # Flip for readability, stats run vertically so thats easier to read
+  labs(
+    title = "Cooking Fuels Used in Occupied Units, 1970",
+    x = "State",
+    y = "Percent",
+    fill = "Fuel Type"
+  )
+
+ggsave("outputs/charts/1970_statebreakdown_cook.png", plot = p70cook, width = 10, height = 7, dpi = 300)
