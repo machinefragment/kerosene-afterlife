@@ -110,3 +110,54 @@ p70cook <- state_summary70cook %>%
   )
 
 ggsave("outputs/charts/1970_statebreakdown_cook.png", plot = p70cook, width = 10, height = 7, dpi = 300)
+
+
+# And water heating fuel
+analysis70_CTX <- read_csv(file.path(data_dir, "fuel_csv/fuel70ctx.csv"))
+
+state_summary70water <- analysis70_CTX %>%
+  group_by(STATE) %>%
+  summarise(
+    CTX001 = sum(CTX001, na.rm = TRUE),
+    CTX002 = sum(CTX002, na.rm = TRUE),
+    CTX003 = sum(CTX003, na.rm = TRUE),
+    CTX004 = sum(CTX004, na.rm = TRUE),
+    CTX005 = sum(CTX005, na.rm = TRUE),
+    CTX006 = sum(CTX006, na.rm = TRUE),
+    CTX007 = sum(CTX007, na.rm = TRUE),
+    CTX008 = sum(CTX008, na.rm = TRUE),
+    total = sum(total, na.rm = TRUE)
+  ) %>%
+  mutate(
+    pctut = 100 * CTX001 / total,
+    pctbot = 100 * CTX002 / total,
+    pctelec   = 100 * CTX003 / total,
+    pctker  = 100 * CTX004 / total,
+    pctcoal = 100 * CTX005 / total,
+    pctwood  = 100 * CTX006 / total,
+    pctoth  = 100 * CTX007 / total,
+    pctno   = 100 * CTX008 / total
+  )
+
+p70water <- state_summary70water %>% 
+  pivot_longer(cols = starts_with("pct"), names_to = "source", values_to = "percent") %>% # Reshape from wide (many columns) to long (two columns - source and percent)
+  mutate(source = recode(source, # Here we are making our labels human readable
+                         pctbot = "Bottled Gas",
+                         pctcoal = "Coal or Coke",
+                         pctelec = "Electricity",
+                         pctker = "Kerosene or Fuel Oil",
+                         pctno = "None",
+                         pctoth = "Other",
+                         pctut = "Utility Gas",
+                         pctwood = "Wood"
+  )) %>%
+  ggplot(aes(x = STATE, y = percent, fill = source)) + # Starts ggplot object telling R how to map visually
+  geom_bar(stat = "identity", position = "stack") + # adds bar geometry, stat = identity tells it to use actual values not counts, position = stack stacks the bars by fuel type 
+  coord_flip() + # Flip for readability, stats run vertically so thats easier to read
+  labs(
+    title = "Water Heating Fuels Used in Occupied Units, 1970",
+    x = "State",
+    y = "Percent",
+    fill = "Fuel Type"
+  )
+ggsave("outputs/charts/1970_statebreakdown_water.png", plot = p60, width = 10, height = 7, dpi = 300)
