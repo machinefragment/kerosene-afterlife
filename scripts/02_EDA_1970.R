@@ -160,4 +160,4 @@ p70water <- state_summary70water %>%
     y = "Percent",
     fill = "Fuel Type"
   )
-ggsave("outputs/charts/1970_statebreakdown_water.png", plot = p60, width = 10, height = 7, dpi = 300)
+ggsave("outputs/charts/1970_statebreakdown_water.png", plot = p70water, width = 10, height = 7, dpi = 300)
