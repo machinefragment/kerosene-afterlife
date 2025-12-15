@@ -26,7 +26,7 @@ seattle_bbox <- st_bbox(c(
 tmap_options(check.and.fix = TRUE)
 tmap_mode("view")   # static first
 
-tm_shape(fuel60,bbox = seattle_bbox) +
+trial <- tm_shape(fuel60,bbox = seattle_bbox) +
   tm_polygons(
     col = "pctker",
     title = "% Households using Kerosene",
@@ -38,4 +38,5 @@ tm_shape(fuel60,bbox = seattle_bbox) +
     )
   )
 
+# tmap_save(trial, "outputs/seattle_trial.html", selfcontained = TRUE)
 
