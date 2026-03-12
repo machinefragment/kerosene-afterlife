@@ -3,7 +3,7 @@ library(sf)
 library(leaflet)
 library(htmltools)
 library(htmlwidgets)
-
+library(tmap)
 # load these guys in 
 fuel60 <- st_read("data/shapefiles/analysisready/heatingfuel1960.shp")
 fuel70 <- st_read("data/shapefiles/analysisready/fuel70ctt_tracts1970.shp")
@@ -24,7 +24,7 @@ seattle_bbox <- st_bbox(c(
 
 # Mapping 
 tmap_options(check.and.fix = TRUE)
-tmap_mode("view")   # static first
+tmap_mode("view") 
 
 trial <- tm_shape(fuel60,bbox = seattle_bbox) +
   tm_polygons(
@@ -38,5 +38,5 @@ trial <- tm_shape(fuel60,bbox = seattle_bbox) +
     )
   )
 
-# tmap_save(trial, "outputs/seattle_trial.html", selfcontained = TRUE)
+tmap_save(trial, "outputs/seattle_trial.html", selfcontained = TRUE)
 
